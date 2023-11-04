@@ -10,13 +10,13 @@ import (
 )
 
 type Register struct {
-	conf        etcd.Config
-	cli         *etcd.Client
-	shutdown    chan bool
-	leaseId     clientv3.LeaseID
-	keepAliveCh <-chan *clientv3.LeaseKeepAliveResponse
-	ins         *Instance
-	ttl         int64
+	conf     etcd.Config
+	cli      *etcd.Client
+	shutdown chan bool
+	leaseId  clientv3.LeaseID
+	//keepAliveCh <-chan *clientv3.LeaseKeepAliveResponse
+	ins *Instance
+	ttl int64
 }
 
 func NewRegister(conf etcd.Config) *Register {
