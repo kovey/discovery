@@ -9,5 +9,5 @@ const (
 
 const (
 	Scheme_Etcd  = "etcd"
-	service_name = "%s/%s"
+	service_name = "%s/%s/%s"
 )

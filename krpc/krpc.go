@@ -8,10 +8,15 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var mode Mode = Mode_Remote
+var mode = Mode_Remote
+var loadBalance = NewLoadBalance("round_robin")
 
 func SetMode(m Mode) {
 	mode = m
+}
+
+func SetLoadBalance(name string) {
+	loadBalance = NewLoadBalance(name)
 }
 
 func dial(serviceName string) (*grpc.ClientConn, error) {
@@ -25,25 +30,25 @@ func dial(serviceName string) (*grpc.ClientConn, error) {
 	default:
 		return grpc.Dial(
 			fmt.Sprintf("%s:///%s", dg.Scheme_Etcd, serviceName), grpc.WithTransportCredentials(insecure.NewCredentials()),
-			grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`),
+			grpc.WithDefaultServiceConfig(loadBalance.encode()),
 		)
 	}
 }
 
-func Dial(serviceName ServiceName) (grpc.ClientConnInterface, error) {
-	if conn, err := c.get(serviceName.Default()); err == nil {
+func Dial(serviceName ServiceName, namespace, group string) (grpc.ClientConnInterface, error) {
+	if conn, err := c.get(serviceName.Group(namespace, group)); err == nil {
 		return conn, err
 	}
 
-	return c.add(serviceName.Default())
+	return c.add(serviceName.Group(namespace, group))
 }
 
 func DialWithGroup(serviceName ServiceName, group string) (grpc.ClientConnInterface, error) {
-	if conn, err := c.get(serviceName.Group(group)); err == nil {
-		return conn, err
-	}
+	return Dial(serviceName, dg.Default, group)
+}
 
-	return c.add(serviceName.Group(group))
+func DialDefault(serviceName ServiceName) (grpc.ClientConnInterface, error) {
+	return Dial(serviceName, dg.Default, dg.Default)
 }
 
 func Close() {

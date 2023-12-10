@@ -3,6 +3,7 @@ package resolver
 import (
 	"fmt"
 
+	_ "github.com/kovey/discovery/algorithm"
 	"github.com/kovey/discovery/etcd"
 	"github.com/kovey/discovery/grpc"
 )
