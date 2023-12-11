@@ -22,6 +22,8 @@ type Local struct {
 	Name      ServiceName `yaml:"name" json:"name"`
 	Group     string      `yaml:"group" json:"group"`
 	Namespace string      `yaml:"namespace" json:"namespace"`
+	Weight    int64       `yaml:"weight" json:"weight"`
+	Version   string      `yaml:"version" json:"version"`
 }
 
 func (l *Local) Addr() string {
@@ -37,6 +39,10 @@ func (l *Local) ServiceName() string {
 	}
 
 	return l.Name.Group(l.Namespace, l.Group)
+}
+
+func (l *Local) Instance() *grpc.Instance {
+	return &grpc.Instance{Name: string(l.Name), Addr: l.Addr(), Version: l.Version, Group: l.Group, Namespace: l.Namespace}
 }
 
 type Locals map[string]*Local
