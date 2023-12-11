@@ -42,7 +42,7 @@ func (l *Local) ServiceName() string {
 }
 
 func (l *Local) Instance() *grpc.Instance {
-	return &grpc.Instance{Name: string(l.Name), Addr: l.Addr(), Version: l.Version, Group: l.Group, Namespace: l.Namespace}
+	return &grpc.Instance{Name: string(l.Name), Addr: l.Addr(), Version: l.Version, Group: l.Group, Namespace: l.Namespace, Weight: l.Weight}
 }
 
 type Locals map[string]*Local
