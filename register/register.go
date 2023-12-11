@@ -14,6 +14,7 @@ func Init(conf etcd.Config) {
 		return
 	}
 
+	grpc.SetNamespace(conf.Namespace)
 	reg = grpc.NewRegister(conf)
 }
 

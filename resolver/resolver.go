@@ -11,6 +11,7 @@ import (
 var builder *grpc.Builder
 
 func Init(conf etcd.Config) {
+	grpc.SetNamespace(conf.Namespace)
 	builder = grpc.NewBuilder(conf)
 }
 

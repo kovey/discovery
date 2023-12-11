@@ -36,20 +36,16 @@ func dial(serviceName string) (*grpc.ClientConn, error) {
 	}
 }
 
-func Dial(serviceName ServiceName, namespace, group string) (grpc.ClientConnInterface, error) {
-	if conn, err := c.get(serviceName.Group(namespace, group)); err == nil {
+func Dial(serviceName ServiceName, group string) (grpc.ClientConnInterface, error) {
+	if conn, err := c.get(serviceName.Group(group)); err == nil {
 		return conn, err
 	}
 
-	return c.add(serviceName.Group(namespace, group))
-}
-
-func DialWithGroup(serviceName ServiceName, group string) (grpc.ClientConnInterface, error) {
-	return Dial(serviceName, dg.Default, group)
+	return c.add(serviceName.Group(group))
 }
 
 func DialDefault(serviceName ServiceName) (grpc.ClientConnInterface, error) {
-	return Dial(serviceName, dg.Default, dg.Default)
+	return Dial(serviceName, dg.Default)
 }
 
 func Close() {

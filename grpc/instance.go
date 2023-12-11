@@ -23,6 +23,16 @@ const (
 	key_namespace      = "namespace"
 )
 
+var namespace = Default
+
+func SetNamespace(ns string) {
+	namespace = ns
+}
+
+func Namespace() string {
+	return namespace
+}
+
 type Instance struct {
 	Name      string `json:"n"`
 	Addr      string `json:"a"`
