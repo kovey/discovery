@@ -4,11 +4,19 @@ import (
 	"fmt"
 
 	"github.com/kovey/discovery/grpc"
+	"github.com/kovey/discovery/register"
 )
 
 type ServiceName string
 
 func (s ServiceName) Group(namespace, group string) string {
+	if namespace == grpc.Str_Empty {
+		namespace = grpc.Default
+	}
+	if group == grpc.Str_Empty {
+		group = grpc.Default
+	}
+
 	return fmt.Sprintf(service_name, namespace, group, s)
 }
 
@@ -41,8 +49,24 @@ func (l *Local) ServiceName() string {
 	return l.Name.Group(l.Namespace, l.Group)
 }
 
+func (l *Local) InnerAddr() string {
+	if l.Group == grpc.Str_Empty {
+		l.Group = grpc.Default
+	}
+
+	if l.Namespace == grpc.Str_Empty {
+		l.Namespace = grpc.Default
+	}
+
+	if l.Weight == 0 {
+		l.Weight = 100
+	}
+
+	return fmt.Sprintf("%s:%d", register.InnerIp(), l.Port)
+}
+
 func (l *Local) Instance() *grpc.Instance {
-	return &grpc.Instance{Name: string(l.Name), Addr: l.Addr(), Version: l.Version, Group: l.Group, Namespace: l.Namespace, Weight: l.Weight}
+	return &grpc.Instance{Name: string(l.Name), Addr: l.InnerAddr(), Version: l.Version, Group: l.Group, Namespace: l.Namespace, Weight: l.Weight}
 }
 
 type Locals map[string]*Local
