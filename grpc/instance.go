@@ -26,6 +26,10 @@ const (
 var namespace = Default
 
 func SetNamespace(ns string) {
+	if ns == Str_Empty {
+		return
+	}
+
 	namespace = ns
 }
 
