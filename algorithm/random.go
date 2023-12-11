@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	Alg_Random = "random"
+	Alg_Round_Robin = "round_robin"
+	Alg_Random      = "random"
 )
 
 var logger = grpclog.Component(Alg_Random)

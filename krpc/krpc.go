@@ -3,13 +3,14 @@ package krpc
 import (
 	"fmt"
 
+	"github.com/kovey/discovery/algorithm"
 	dg "github.com/kovey/discovery/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 var mode = Mode_Remote
-var loadBalance = NewLoadBalance("round_robin")
+var loadBalance = NewLoadBalance(algorithm.Alg_Round_Robin)
 
 func SetMode(m Mode) {
 	mode = m
