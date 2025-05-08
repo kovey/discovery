@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	ins_prefix         = "/%s/%s/%s/"
-	ins_prefix_version = "/%s/%s/%s/%s/"
+	ins_prefix         = "/ko/grpc/%s/%s/%s/"
+	ins_prefix_version = "/ko/grpc/%s/%s/%s/%s/"
 	ins_path           = "%s%s"
 	ins_index          = "/"
 	Str_Empty          = ""
