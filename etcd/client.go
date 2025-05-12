@@ -102,7 +102,7 @@ func (c *Client) Watch(e IEvent, opts ...clientv3.OpOption) error {
 		opts = append(opts, clientv3.WithPrefix())
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), Req_Timeout*time.Second)
+	ctx, cancel := context.WithCancel(context.Background())
 	c.locker.Lock()
 	c.cancels[e.Key()] = cancel
 	c.locker.Unlock()
