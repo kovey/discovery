@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	ins_prefix         = "/ko/grpc/%s/%s/%s/"
-	ins_prefix_version = "/ko/grpc/%s/%s/%s/%s/"
+	Ins_Prefix         = "/ko/grpc/%s/%s/%s/"
+	Ins_Prefix_Version = "/ko/grpc/%s/%s/%s/%s/"
 	ins_path           = "%s%s"
 	ins_index          = "/"
 	Str_Empty          = ""
@@ -59,10 +59,10 @@ func (i *Instance) Prefix() string {
 	}
 
 	if i.Version == Str_Empty {
-		return fmt.Sprintf(ins_prefix, i.Namespace, i.Group, i.Name)
+		return fmt.Sprintf(Ins_Prefix, i.Namespace, i.Group, i.Name)
 	}
 
-	return fmt.Sprintf(ins_prefix_version, i.Namespace, i.Group, i.Name, i.Version)
+	return fmt.Sprintf(Ins_Prefix_Version, i.Namespace, i.Group, i.Name, i.Version)
 }
 
 func (i *Instance) Path() string {

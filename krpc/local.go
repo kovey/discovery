@@ -14,7 +14,7 @@ func (s ServiceName) Group(group string) string {
 		group = grpc.Default
 	}
 
-	return fmt.Sprintf(service_name, grpc.Namespace(), group, s)
+	return fmt.Sprintf(grpc.Ins_Prefix, grpc.Namespace(), group, s)
 }
 
 func (s ServiceName) Default() string {
