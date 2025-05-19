@@ -10,6 +10,7 @@ import (
 )
 
 const (
+	Ins_Name           = "/ko/grpc/%s/%s/%s"
 	Ins_Prefix         = "/ko/grpc/%s/%s/%s/"
 	Ins_Prefix_Version = "/ko/grpc/%s/%s/%s/%s/"
 	ins_path           = "%s%s"
