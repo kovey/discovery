@@ -8,16 +8,25 @@ import (
 	"google.golang.org/grpc/resolver"
 )
 
+type DeleteInterface interface {
+	Delete(serviceName string)
+}
+
 type Resolver struct {
 	cli      *etcd.Client
 	prefix   bool
 	servList []resolver.Address
 	conn     resolver.ClientConn
 	key      string
+	ev       DeleteInterface
 }
 
 func NewResolver(conn resolver.ClientConn, cli *etcd.Client, key string, prefix bool) *Resolver {
 	return &Resolver{conn: conn, cli: cli, prefix: prefix, key: key}
+}
+
+func (r *Resolver) Event(ev DeleteInterface) {
+	r.ev = ev
 }
 
 func (r *Resolver) Modify(key, value string) error {
@@ -84,6 +93,10 @@ func (r *Resolver) sync() error {
 		}
 
 		r.servList = append(r.servList, ins.Address())
+	}
+
+	if len(r.servList) == 0 && r.ev != nil {
+		r.ev.Delete(r.key)
 	}
 
 	return r.update()

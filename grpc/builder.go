@@ -13,10 +13,15 @@ type Builder struct {
 	cli    *etcd.Client
 	scheme string
 	conf   etcd.Config
+	ev     DeleteInterface
 }
 
 func NewBuilder(conf etcd.Config) *Builder {
 	return &Builder{cli: etcd.NewClient(), scheme: Scheme_Etcd, conf: conf}
+}
+
+func (b *Builder) Event(ev DeleteInterface) {
+	b.ev = ev
 }
 
 func (b *Builder) Register() error {
@@ -42,5 +47,6 @@ func (b *Builder) Build(target resolver.Target, conn resolver.ClientConn, opt re
 		return nil, err
 	}
 
+	r.Event(b.ev)
 	return r, nil
 }
