@@ -96,7 +96,7 @@ func (r *Register) keepAlive() {
 			}
 			*/
 
-			resp, err := r.cli.KeepAliveOnce(r.leaseId)
+			_, err := r.cli.KeepAliveOnce(r.leaseId)
 			if err != nil {
 				debug.Erro("keep alive failure, error: %s", err)
 				if err := r.register(); err != nil {
@@ -105,7 +105,6 @@ func (r *Register) keepAlive() {
 				continue
 			}
 
-			debug.Info("keep alive success, lease: %d, TTL: %d", resp.ID, resp.TTL)
 			///case res, ok := <-r.keepAliveCh:
 			//debug.Info("keep alive res: %v, %t, chan: %+v", res, ok, r.keepAliveCh)
 			/**
