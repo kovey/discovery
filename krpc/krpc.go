@@ -27,11 +27,11 @@ func dial(serviceName string) (*grpc.ClientConn, error) {
 		if !ok {
 			return nil, fmt.Errorf("service[%s] not found on local", serviceName)
 		}
-		return grpc.Dial(fmt.Sprintf("%s:%d", local.Host, local.Port), grpc.WithTransportCredentials(insecure.NewCredentials()))
+		return grpc.Dial(fmt.Sprintf("%s:%d", local.Host, local.Port), grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithChainUnaryInterceptor(trace))
 	default:
 		return grpc.Dial(
 			fmt.Sprintf("%s://%s", dg.Scheme_Etcd, serviceName), grpc.WithTransportCredentials(insecure.NewCredentials()),
-			grpc.WithDefaultServiceConfig(loadBalance.encode()),
+			grpc.WithDefaultServiceConfig(loadBalance.encode()), grpc.WithChainUnaryInterceptor(trace),
 		)
 	}
 }
