@@ -30,7 +30,7 @@ func dial(serviceName string) (*grpc.ClientConn, error) {
 		return grpc.Dial(fmt.Sprintf("%s:%d", local.Host, local.Port), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	default:
 		return grpc.Dial(
-			fmt.Sprintf("%s:///%s", dg.Scheme_Etcd, serviceName), grpc.WithTransportCredentials(insecure.NewCredentials()),
+			fmt.Sprintf("%s://%s", dg.Scheme_Etcd, serviceName), grpc.WithTransportCredentials(insecure.NewCredentials()),
 			grpc.WithDefaultServiceConfig(loadBalance.encode()),
 		)
 	}
