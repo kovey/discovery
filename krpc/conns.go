@@ -27,12 +27,6 @@ func (c *conns) get(serviceName string) (*grpc.ClientConn, error) {
 	return nil, fmt.Errorf("service[%s] not found", serviceName)
 }
 
-func (c *conns) remove(serviceName string) {
-	c.locker.Lock()
-	defer c.locker.Unlock()
-	delete(c.data, serviceName)
-}
-
 func (c *conns) add(serviceName string) (*grpc.ClientConn, error) {
 	c.locker.Lock()
 	defer c.locker.Unlock()
@@ -59,7 +53,3 @@ func (c *conns) close() {
 }
 
 var c = newConns()
-
-func Remove(serviceName string) {
-	c.remove(serviceName)
-}
